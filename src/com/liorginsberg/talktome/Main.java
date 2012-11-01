@@ -42,7 +42,7 @@ public class Main extends Activity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		
+		//TODO remove initialization list
 		arrayTaskList = new ArrayList<Task>(Arrays.asList(new Task[] { 
 				new Task("first", false),
 				new Task("second", false),
