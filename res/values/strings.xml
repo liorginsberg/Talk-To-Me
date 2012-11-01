@@ -1,0 +1,8 @@
+<resources>
+
+    <string name="app_name">Talk To Me</string>
+    <string name="title_activity_main">Main</string>
+    <string name="talk_button">Talk to me</string>
+    <string name="hebrew_sentence">דוגמה מספר אחת</string>
+
+</resources>
