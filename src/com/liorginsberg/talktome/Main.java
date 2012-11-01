@@ -74,6 +74,8 @@ public class Main extends Activity {
 		lvTasks = (ListView) findViewById(R.id.lvTasks);
 		btnTalkToMe = (Button) findViewById(R.id.btnTalkToMe);
 		lvTasks.setAdapter(taskAdapter);
+		
+		
 
 		btnTalkToMe.setOnClickListener(new OnClickListener() {
 			@Override
