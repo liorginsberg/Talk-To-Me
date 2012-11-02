@@ -5,8 +5,10 @@ import java.util.Arrays;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.Intent;
 import android.graphics.Paint;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.speech.RecognizerIntent;
@@ -16,6 +18,8 @@ import android.view.GestureDetector.OnGestureListener;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
@@ -25,58 +29,38 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 public class Main extends Activity {
 
-	private Button btnTalkToMe;
+	private ImageButton btnTalkToMe;
 	private ListView lvTasks;
 	private TaskAdapter taskAdapter;
 	private ArrayList<Task> arrayTaskList;
 	private GestureDetector gestureDetector;
 	static final private int voice = 1121;
+	private Context con = this;
+	//
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+		getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+				WindowManager.LayoutParams.FLAG_FULLSCREEN);
+		
 		setContentView(R.layout.activity_main);
 		//TODO remove initialization list
-		arrayTaskList = new ArrayList<Task>(Arrays.asList(new Task[] { 
-				new Task("first", false),
-				new Task("second", false),
-				new Task("third", false),
-				new Task("forth", false),
-				new Task("first", false),
-				new Task("second", false),
-				new Task("third", false),
-				new Task("forth", false),
-				new Task("first", false),
-				new Task("second", false),
-				new Task("third", false),
-				new Task("forth", false),
-				new Task("first", false),
-				new Task("second", false),
-				new Task("third", false),
-				new Task("forth", false),
-				new Task("first", false),
-				new Task("second", false),
-				new Task("third", false),
-				new Task("forth", false),
-				new Task("first", false),
-				new Task("second", false),
-				new Task("third", false),
-				new Task("forth", false)
-		}));
+		arrayTaskList = new ArrayList<Task>();
 		
 		taskAdapter = new TaskAdapter(this, R.layout.task_item, arrayTaskList);
 		lvTasks = (ListView) findViewById(R.id.lvTasks);
-		btnTalkToMe = (Button) findViewById(R.id.btnTalkToMe);
+		btnTalkToMe = (ImageButton) findViewById(R.id.btnTalkToMe);
 		lvTasks.setAdapter(taskAdapter);
 		
-		
-
 		btnTalkToMe.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -92,7 +76,10 @@ public class Main extends Activity {
 
 			@Override
 			public boolean onItemLongClick(AdapterView<?> adapterView, View view, int position, long id) {
-				Log.i("DEBUG", "onLongClick()");
+				Log.i("DEBUG", "onLongClick() "+position);
+				if(position == arrayTaskList.size() -2 || position == arrayTaskList.size()-1) {
+					return false;
+				}
 				arrayTaskList.remove(position);
 				taskAdapter.notifyDataSetChanged();
 				return false;
@@ -135,12 +122,11 @@ public class Main extends Activity {
 			public boolean onFling(MotionEvent e1, MotionEvent e2, float velX, float velY) {
 				Log.i("DEBUG", "onFling()");
 				boolean value = false;
-				float x = e1.getX();
-				float y = e1.getY();
-				int valx = Math.round(x);
-				int valy = Math.round(y);
-				final int posStart = lvTasks.pointToPosition(valx, valy);
+				final int posStart = lvTasks.pointToPosition(Math.round(e1.getX()), Math.round(e1.getY()));
 				final int posEnd = lvTasks.pointToPosition(Math.round(e2.getX()), Math.round(e2.getY()));
+				if(posStart == arrayTaskList.size()-2 || posStart == arrayTaskList.size()-1) {
+					return false;
+				}
 				if (posStart == -1 || posEnd == -1) {
 					return false;
 				}
@@ -188,7 +174,7 @@ public class Main extends Activity {
 
 		if (requestCode == voice && resultCode == RESULT_OK) {
 			ArrayList<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-			arrayTaskList.add(new Task(results.get(0), false));
+			arrayTaskList.add(arrayTaskList.size()-2, new Task(results.get(0)));
 			taskAdapter.notifyDataSetChanged();
 			lvTasks.setSelection(lvTasks.getBottom());
 		}
@@ -203,6 +189,7 @@ class TaskAdapter extends ArrayAdapter<Task> {
 	public TaskAdapter(Context context, int textViewResourceId, ArrayList<Task> tasks) {
 		super(context, textViewResourceId, tasks);
 		this.tasks = tasks;
+
 	}
 	
 	public View getView(int position, View convertView, ViewGroup parent) {
@@ -221,6 +208,7 @@ class TaskAdapter extends ArrayAdapter<Task> {
 			TextView tv = (TextView) v.findViewById(R.id.tvTask);
 
 			if (tv != null) {
+
 				tv.setText(t.getText());
 				if(t.isCrossed()) {
 					tv.setPaintFlags(tv.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);	

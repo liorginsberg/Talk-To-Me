@@ -4,5 +4,6 @@
     <string name="title_activity_main">Main</string>
     <string name="talk_button">Talk to me</string>
     <string name="hebrew_sentence">דוגמה מספר אחת</string>
+    <string name="note_top">the top of the note book seperator</string>
 
 </resources>

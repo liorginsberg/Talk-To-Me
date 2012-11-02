@@ -1,22 +1,89 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:layout_height="wrap_content" >
 
-    <Button
-        android:id="@+id/btnTalkToMe"
+    <RelativeLayout
+        android:id="@+id/top"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/talk_button" />
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:contentDescription="@string/note_top"
+            android:scaleType="fitXY"
+            android:src="@drawable/note_top" />
+    </RelativeLayout>
 
     <ListView
         android:id="@+id/lvTasks"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:background="@drawable/list_background"
+        android:layout_below="@+id/top"
+        android:background="@drawable/note_back"
         android:divider="@null"
-        android:dividerHeight="0dp" >
-    </ListView>
+        android:dividerHeight="0dp" />
+    <View 
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:layout_below="@+id/lvTasks"/>
 
-</LinearLayout>
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/bottom_bar"
+        android:layout_width="fill_parent"
+        android:layout_height="70dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/bottom_bar"
+        android:orientation="horizontal"
+        android:paddingTop="20dp"
+        android:weightSum="5" >
+
+        <ImageButton
+            android:id="@+id/action1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/note_top"
+            android:src="@drawable/plus" />
+
+        <ImageButton
+            android:id="@+id/action2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/note_top"
+            android:src="@drawable/waze" />
+
+        <ImageButton
+            android:id="@+id/btnTalkToMe"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/note_top"
+            android:src="@drawable/mic_scetch" />
+
+        <ImageButton
+            android:id="@+id/action4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/note_top"
+            android:src="@drawable/cal" />
+
+        <ImageButton
+            android:id="@+id/action5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@null"
+            android:contentDescription="@string/note_top"
+            android:src="@drawable/set" />
+    </LinearLayout>
+
+</RelativeLayout>

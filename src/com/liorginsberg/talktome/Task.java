@@ -4,6 +4,16 @@ public class Task {
 
 	private String text;
 	private boolean crossed;
+	private boolean placeHolder;
+	
+
+	public boolean isPlaceHolder() {
+		return placeHolder;
+	}
+
+	public void setPlaceHolder(boolean placeHolder) {
+		this.placeHolder = placeHolder;
+	}
 
 	public String getText() {
 		return text;
@@ -21,9 +31,16 @@ public class Task {
 		this.crossed = crossed;
 	}
 
-	public Task(String text, boolean crossed) {
+	public Task(String text, boolean placeHolder) {
 		super();
 		this.text = text;
-		this.crossed = crossed;
+		this.crossed = false;
+		this.placeHolder = placeHolder;
+	}
+	public Task(String text) {
+		super();
+		this.text = text;
+		this.crossed = false;
+		this.placeHolder = false;
 	}
 }
